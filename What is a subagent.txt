@@ -1,0 +1,19 @@
+What is a subagent?
+
+A subagent is another version of Claude Code, with a slightly different prompt that you’ve given it, and even a different model if you wanted, that has its very own 200k context window.
+
+What does this mean?
+
+It means that Claude Code can effectively run forever, using subagents. The only limitation is how much information it returns back to the OG (the original 200k context window) Claude Code conversation.
+
+Why is this such a game changer?
+
+Well – basically, you can now create an entire project within one 200k context window – without any worries about /compact – meaning that you can now create entire projects without losing context.
+
+How can you activate this?
+
+You don’t need any prior set up – instead, you can simply say – “Claude spin me up a subagent to preserve context while you make these change” and instead of using its current 200k context window – instead, it will create a subagent to do that coding for it – and preserve its context length.
+
+Other ways to activate sub agents
+
+You can also activate them by creating an Agents folder inside your .claude folder – which can then be invoked at any time. These are specific agents.

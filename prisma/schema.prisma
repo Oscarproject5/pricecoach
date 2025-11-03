@@ -1,0 +1,90 @@
+// This is your Prisma schema file
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Note: SQLite doesn't support Json natively
+// For PostgreSQL, change provider to "postgresql" and convert String to Json
+
+model Business {
+  id          String   @id @default(cuid())
+  name        String
+  industry    String   // SaaS, Services, Retail, Restaurant, Manufacturing, etc.
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Business Metrics
+  revenue             Float?
+  monthlyRevenue      Float?
+  costs               Float?
+  grossMargin         Float?
+  netMargin           Float?
+  customersCount      Int?
+
+  // Pricing Info
+  currentPricing      String?  // JSON-stringified pricing structure
+  pricingModel        String? // hourly, project, subscription, per-unit, etc.
+
+  // Problems & Solutions
+  identifiedProblems  String?  // JSON-stringified problems
+  recommendations     String?  // JSON-stringified recommendations
+
+  // Sessions
+  sessions            CoachingSession[]
+  reports             Report[]
+}
+
+model CoachingSession {
+  id          String   @id @default(cuid())
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  status      String   @default("active") // active, completed, paused
+
+  // Conversation
+  messages    Message[]
+
+  // Session analysis
+  focusArea   String?  // pricing, operations, marketing, sales
+  keyFindings String?  // JSON-stringified findings
+}
+
+model Message {
+  id         String          @id @default(cuid())
+  sessionId  String
+  session    CoachingSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  role       String          // user, assistant, system
+  content    String
+  timestamp  DateTime        @default(now())
+
+  // Metadata
+  metadata   String?         // JSON-stringified metadata (calculations, charts, etc.)
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  title       String
+  type        String   // pricing_analysis, full_diagnostic, action_plan
+  generatedAt DateTime @default(now())
+
+  // Report Content
+  summary     String
+  findings    String          // JSON-stringified findings
+  recommendations String      // JSON-stringified recommendations
+  actionItems    String       // JSON-stringified action items
+  calculations   String?      // JSON-stringified calculations
+
+  // File
+  pdfPath     String?
+}
