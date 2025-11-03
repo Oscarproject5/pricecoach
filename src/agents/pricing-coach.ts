@@ -57,7 +57,7 @@ export class PricingCoachAgent {
     try {
       // Call Claude API
       const response = await this.client.messages.create({
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-3-5-sonnet-20240620',
         max_tokens: 4096,
         system: this.buildSystemPrompt(),
         messages,
