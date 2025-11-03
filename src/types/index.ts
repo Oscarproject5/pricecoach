@@ -82,7 +82,7 @@ export interface Recommendation {
 export interface CalculationResult {
   type: string;
   inputs: Record<string, number>;
-  outputs: Record<string, number>;
+  outputs: Record<string, number | boolean>;
   explanation: string;
 }
 

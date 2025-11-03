@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
           sessionId,
           role: 'assistant',
           content: response.content,
-          metadata: response.metadata,
+          metadata: response.metadata ? JSON.stringify(response.metadata) : null,
         },
       });
     }

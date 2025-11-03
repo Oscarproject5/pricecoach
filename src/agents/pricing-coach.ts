@@ -140,7 +140,7 @@ export class PricingCoachAgent {
     return this.context.conversationHistory
       .filter(msg => msg.role !== 'system')
       .map(msg => ({
-        role: msg.role,
+        role: msg.role as 'user' | 'assistant',
         content: msg.content,
       }));
   }
